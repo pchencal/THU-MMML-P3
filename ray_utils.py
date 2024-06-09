@@ -4,6 +4,7 @@ from typing import List, NamedTuple
 import torch
 import torch.nn.functional as F
 from pytorch3d.renderer.cameras import CamerasBase
+print(torch.version.cuda)
 
 
 # Convenience class wrapping several ray inputs:
@@ -89,10 +90,14 @@ def get_pixels_from_image(image_size, camera):
     W, H = image_size[0], image_size[1]
 
     # TODO (1): Generate pixel coordinates from [0, W] in x and [0, H] in y
-    pass
+    # pass
+    x = torch.arange(0, W, dtype=torch.float32)
+    y = torch.arange(0, H, dtype=torch.float32)
 
     # TODO (1): Convert to the range [-1, 1] in both x and y
-    pass
+    # pass
+    x = (2.0 * (x / (W - 1)) - 1.0)
+    y = (2.0 * (y / (H - 1)) - 1.0)
 
 
     # Create grid of coordinates
@@ -128,13 +133,16 @@ def get_rays_from_pixels(xy_grid, image_size, camera):
     )
 
     # TODO (1): Use camera.unproject_points to get world space points on the image plane from NDC space points
-    pass
+    # pass
+    world_points = camera.unproject_points(ndc_points)
 
     # TODO (1): Get ray origins from camera center
-    pass
+    # pass
+    rays_o = torch.ones_like(world_points) * camera.center
 
     # TODO (1): Get normalized ray directions
-    pass
+    # pass
+    rays_d = F.normalize(world_points - rays_o, dim=-1)
 
     # Create and return RayBundle
     return RayBundle(
