@@ -1,0 +1,28 @@
+seed: 1
+
+type: render_nerf
+
+training:
+  checkpoint_path: ./nerf_checkpoints
+  resume: True
+
+data:
+  image_size: [128, 128]
+
+renderer:
+  type: volume
+  chunk_size: 32768
+  white_background: False
+
+sampler:
+  type: stratified
+  n_pts_per_ray: 128
+
+  min_depth: 2.0
+  max_depth: 6.0
+
+implicit_function:
+  type: nerf
+
+  n_harmonic_functions_xyz: 6
+  n_harmonic_functions_dir: 2
