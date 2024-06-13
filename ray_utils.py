@@ -138,7 +138,7 @@ def get_rays_from_pixels(xy_grid, image_size, camera):
 
     # TODO (1): Get ray origins from camera center
     # pass
-    rays_o = torch.ones_like(world_points) * camera.center
+    rays_o = torch.ones_like(world_points) * camera.T
 
     # TODO (1): Get normalized ray directions
     # pass

@@ -28,8 +28,8 @@ class StratifiedRaysampler(torch.nn.Module):
 
         # TODO (2): Sample points from z values
         # pass
-        rays = ray_bundle.origins.unsqueeze(-2) + ray_bundle.directions.unsqueeze(-2) * z_vals.view(1, 1, -1, 1)
-        sample_points = rays.view(-1, 3)
+        origins, directions = ray_bundle.origins.unsqueeze(1), ray_bundle.directions.unsqueeze(1)
+        sample_points = origins + directions * z_vals.unsqueeze(0).unsqueeze(-1)
 
         # Return
         return ray_bundle._replace(
